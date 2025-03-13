@@ -1,1 +1,519 @@
-<h1>this is a test</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NousNav Video Tutorials</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script>
+        // Put your YouTube video details (title, video ID, and category) in the following array
+        // and this script will generate corresponding videos in the web page
+        
+        const videos = [
+            {
+                id: '2-Hhx8DqVpA',
+                title: 'NousNav Video Tutorial 1 - Affixing the Camera to the Tripod',
+                category: 'setup'
+            },
+            {
+                id: 'OZU26ahnPLU',
+                title: 'NousNav Video Tutorial 2 - Connecting the Camera to the Power Supply and NousNav Computer',
+                category: 'setup'
+            },
+            {
+                id: '8vSbx8muejM',
+                title: 'NousNav Video Tutorial 3 - Patient Head Fixation',
+                category: 'setup'
+            },
+            {
+                id: '0ydZh5OgD50',
+                title: 'NousNav Video Tutorial 4 - Affixing the Reference Array Mount',
+                category: 'setup'
+            },
+            {
+                id: 'YVUPEYzc6Ns',
+                title: 'NousNav Video Tutorial 5 - Attaching the Reference Array to the Mount',
+                category: 'setup'
+            },
+            {
+                id: 'uCKh42dy4ko',
+                title: 'NousNav Video Tutorial 6 - Pointer Calibration: Pivot',
+                category: 'calibration'
+            },
+            {
+                id: 'IULhu-MymIA',
+                title: 'NousNav Video Tutorial 7 - Pointer Calibration: Spin',
+                category: 'calibration'
+            },
+            {
+                id: '5iK24jAa0Eg',
+                title: 'NousNav Video Tutorial 8 - Initializing Registration with Anatomical Landmarks',
+                category: 'registration'
+            },
+            {
+                id: '32xyIqOp6e0',
+                title: 'NousNav Video Tutorial 9 - Finalizing Registration with Dense Trace Collection',
+                category: 'registration'
+            },
+            {
+                id: 'P5i6Ta7QBi8',
+                title: 'NousNav Video Tutorial 10 - Verifying the Registration Accuracy',
+                category: 'registration'
+            },
+            {
+                id: '4ovvoLBK_nE',
+                title: 'NousNav Video Tutorial 11 - Identifying the Pre-Planned Trajectory',
+                category: 'procedure'
+            },
+            {
+                id: '2VqFgdLoKhI',
+                title: 'NousNav Video Tutorial 12 - Defining Tumor Boundaries',
+                category: 'procedure'
+            },
+            {
+                id: 'g4U_IARbBtc',
+                title: 'NousNav Software Tutorial 1 - DICOM Data Import',
+                category: 'planning'
+            },
+            {
+                id: 'aD910mzm21g',
+                title: 'NousNav Software Tutorial 2  - Skin Segmentation',
+                category: 'planning'
+            },
+            {
+                id: 'Lx6jvJcz6VU',
+                title: 'NousNav Software Tutorial 3 - Tumor Segmentation',
+                category: 'planning'
+            },
+            {
+                id: 'HYPUuCCUj98',
+                title: 'NousNav Software Tutorial 4  - Anatomical Landmarks Definition',
+                category: 'planning'
+            },
+            {
+                id: 'QrdGlmQTWRg',
+                title: 'NousNav Software Tutorial 5  - Trajectory Planning',
+                category: 'planning'
+            },
+            {
+                id: 'kNwygAhnYp8',
+                title: 'NousNav Software Tutorial 6  - Data Saving',
+                category: 'planning'
+            },
+        ];
+
+        // Define categories and their display names
+        const categories = {
+            'setup': 'System Setup',
+            'calibration': 'Calibration',
+            'loading': 'DICOM Data Import',
+            'planning': 'Segmentation',
+            'registration': 'Registration',
+            'procedure': 'Navigation',
+        };
+
+        window.onload = function () {
+            const videoContainer = document.getElementById('video-container');
+            const categoryNav = document.getElementById('category-nav');
+            
+            // Create category navigation
+            let categoryNavHTML = '<li><a href="#all" class="active" data-category="all">All Videos</a></li>';
+            for (const [key, name] of Object.entries(categories)) {
+                categoryNavHTML += `<li><a href="#${key}" data-category="${key}">${name}</a></li>`;
+            }
+            categoryNav.innerHTML = categoryNavHTML;
+            
+            // Create video items
+            for (const video of videos) {
+                const videoItem = document.createElement('div');
+                videoItem.className = `video-item ${video.category}`;
+                videoItem.innerHTML = `
+                    <div class="video-thumbnail" onclick="playVideo('${video.id}')">
+                        <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.title}">
+                        <div class="play-button">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h2>${video.title}</h2>
+                    <span class="category-tag">${categories[video.category]}</span>
+                `;
+                videoContainer.appendChild(videoItem);
+            }
+            
+            // Category filtering functionality
+            const categoryLinks = document.querySelectorAll('#category-nav a');
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active link
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    const videoItems = document.querySelectorAll('.video-item');
+                    
+                    videoItems.forEach(item => {
+                        if (category === 'all' || item.classList.contains(category)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const videoItems = document.querySelectorAll('.video-item');
+                
+                videoItems.forEach(item => {
+                    const title = item.querySelector('h2').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Reset category filter when searching
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('[data-category="all"]').classList.add('active');
+            });
+        }
+
+        function playVideo(videoId) {
+            const modal = document.getElementById('modal');
+            const iframe = document.querySelector('#modal iframe');
+            
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const iframe = document.querySelector('#modal iframe');
+            
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+            iframe.src = '';
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004d99;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+            padding-bottom: 40px;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 1rem;
+            margin: 10px 0 5px;
+            line-height: 1.4;
+        }
+
+        .intro {
+            text-align: center;
+            margin: 20px auto 40px;
+            max-width: 800px;
+        }
+
+        .intro p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .category-navigation {
+            background-color: white;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        #category-nav {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #category-nav a {
+            display: inline-block;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: var(--dark-gray);
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        #category-nav a:hover {
+            background-color: rgba(0, 102, 204, 0.1);
+        }
+
+        #category-nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Search */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Video Grid */
+        #video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .video-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .video-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-item:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .video-item:hover .play-button {
+            background-color: var(--primary-color);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-item h2 {
+            padding: 15px 15px 5px;
+        }
+
+        .category-tag {
+            display: inline-block;
+            margin: 0 15px 15px;
+            padding: 3px 10px;
+            background-color: var(--light-gray);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        /* Modal */
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        #modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #modal iframe {
+            width: 90%;
+            height: 80%;
+            max-width: 1000px;
+            border: none;
+            border-radius: var(--border-radius);
+        }
+
+        #modal button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        #modal button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #category-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            #category-nav li {
+                flex: 0 0 auto;
+            }
+            .intro h1 {
+                font-size: 1.8rem;
+            }
+            .intro p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #video-container {
+                grid-template-columns: 1fr;
+            }
+            .intro h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>NousNav Video Tutorials</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <p>Welcome to the NousNav Video Tutorial Library. These videos will guide you through setting up and using the NousNav system for neurosurgical navigation.</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search tutorials...">
+        </div>
+
+        <div class="category-navigation">
+            <ul id="category-nav">
+                <!-- Category navigation will be generated by JavaScript -->
+            </ul>
+        </div>
+
+        <div id="video-container">
+            <!-- Video items will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <div id="modal">
+        <button onclick="closeModal()">✕</button>
+        <iframe src="" title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+    </div>
+</body>
+</html>
+
