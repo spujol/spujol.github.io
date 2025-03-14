@@ -353,8 +353,8 @@
                 // Find matching videos
                 let matches = 0;
                 videos.forEach(video => {
-                    if (video.title.toLowerCase().includes(searchTerm))|| 
-                        categories[video.category].toLowerCase().includes(searchTerm) {
+                    if (video.title.toLowerCase().includes(searchTerm)|| 
+                        categories[video.category].toLowerCase().includes(searchTerm)) {
                         matches++;
                         const videoItem = document.createElement('div');
                         videoItem.className = `video-item ${video.category}`;
