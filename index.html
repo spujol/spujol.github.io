@@ -109,6 +109,11 @@
                 category: 'registration'
             },
             {
+                id: 'TII5f-wC1DQ',
+                title: 'NousNav Software Tutorial 10 - NousNav Neuronavigation',
+                category: 'navigation'
+            },
+            {
                 id: '4ovvoLBK_nE',
                 title: 'NousNav Video Tutorial 10 - Identifying the Pre-Planned Trajectory',
                 category: 'navigation'
@@ -119,11 +124,7 @@
                 category: 'navigation'
             },
             // NousNav Software Tutorial 11 has no sound: fix the bug
-            {
-                id: 'TII5f-wC1DQ',
-                title: 'NousNav Software Tutorial 10 - NousNav Neuronavigation',
-                category: 'navigation'
-            },
+          
             // this is the placeholder for saving data
            // {
            //     id: 'kNwygAhnYp8',
@@ -144,6 +145,7 @@
         window.onload = function () {
             const mainContainer = document.getElementById('main-container');
             const categoryNav = document.getElementById('category-nav');
+            const allVideosContainer = document.getElementById('all-videos-container');
             
             // Create category navigation
             let categoryNavHTML = '<li><a href="#all" class="active" data-category="all">All Videos</a></li>';
@@ -151,6 +153,25 @@
                 categoryNavHTML += `<li><a href="#${key}" data-category="${key}">${name}</a></li>`;
             }
             categoryNav.innerHTML = categoryNavHTML;
+            
+            // Create all videos grid
+            videos.forEach(video => {
+                const videoItem = document.createElement('div');
+                videoItem.className = `video-item ${video.category}`;
+                videoItem.innerHTML = `
+                    <div class="video-thumbnail" onclick="playVideo('${video.id}')">
+                        <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.title}">
+                        <div class="play-button">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3>${video.title}</h3>
+                    <span class="category-tag">${categories[video.category]}</span>
+                `;
+                allVideosContainer.appendChild(videoItem);
+            });
             
             // Create category sections
             const categoryVideos = {};
@@ -208,6 +229,12 @@
                 }
             }
             
+            // Initially hide the category sections and show all videos
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('all-videos-section').style.display = 'block';
+            
             // Category filtering functionality
             const categoryLinks = document.querySelectorAll('#category-nav a, .view-all');
             categoryLinks.forEach(link => {
@@ -221,12 +248,29 @@
                     
                     const category = this.getAttribute('data-category');
                     
+                    // Hide search results if they exist
+                    const searchResults = document.getElementById('search-results');
+                    if (searchResults) {
+                        searchResults.style.display = 'none';
+                    }
+                    
+                    // Clear search input
+                    document.getElementById('search-input').value = '';
+                    
                     // Show/hide sections based on selection
                     if (category === 'all') {
+                        // Show all videos grid, hide category sections
+                        document.getElementById('all-videos-section').style.display = 'block';
                         document.querySelectorAll('.category-section').forEach(section => {
-                            section.style.display = 'block';
+                            if (section.id !== 'all-videos-section' && section.id !== 'search-results') {
+                                section.style.display = 'none';
+                            }
                         });
                     } else {
+                        // Hide all videos grid
+                        document.getElementById('all-videos-section').style.display = 'none';
+                        
+                        // Show only selected category section
                         document.querySelectorAll('.category-section').forEach(section => {
                             if (section.id === category) {
                                 section.style.display = 'block';
@@ -246,19 +290,40 @@
                 const searchTerm = this.value.toLowerCase();
                 
                 if (searchTerm === '') {
-                    // If search is cleared, restore all categories
-                    document.querySelectorAll('.category-section').forEach(section => {
-                        section.style.display = 'block';
-                    });
-                    document.querySelectorAll('.video-item').forEach(item => {
-                        item.style.display = 'block';
-                    });
+                    // If search is cleared, restore current view
+                    const activeCategory = document.querySelector('#category-nav a.active').getAttribute('data-category');
+                    if (activeCategory === 'all') {
+                        document.getElementById('all-videos-section').style.display = 'block';
+                        document.querySelectorAll('.category-section').forEach(section => {
+                            if (section.id !== 'all-videos-section' && section.id !== 'search-results') {
+                                section.style.display = 'none';
+                            }
+                        });
+                    } else {
+                        document.getElementById('all-videos-section').style.display = 'none';
+                        document.querySelectorAll('.category-section').forEach(section => {
+                            if (section.id === activeCategory) {
+                                section.style.display = 'block';
+                            } else {
+                                section.style.display = 'none';
+                            }
+                        });
+                    }
+                    
+                    // Remove search results section if it exists
+                    const searchResults = document.getElementById('search-results');
+                    if (searchResults) {
+                        searchResults.style.display = 'none';
+                    }
                     return;
                 }
                 
-                // Hide all sections first
+                // Hide all other sections
+                document.getElementById('all-videos-section').style.display = 'none';
                 document.querySelectorAll('.category-section').forEach(section => {
-                    section.style.display = 'none';
+                    if (section.id !== 'search-results') {
+                        section.style.display = 'none';
+                    }
                 });
                 
                 // Create search results section if it doesn't exist
@@ -310,9 +375,6 @@
                 // Update search results title with count
                 document.querySelector('#search-results .category-title').textContent = 
                     `Search Results (${matches} ${matches === 1 ? 'video' : 'videos'} found)`;
-                
-                // Reset category filter when searching
-                document.querySelectorAll('#category-nav a').forEach(l => l.classList.remove('active'));
             });
         }
 
@@ -682,6 +744,16 @@
         </div>
 
         <div id="main-container">
+            <!-- All Videos Section -->
+            <div id="all-videos-section" class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">All Videos</h2>
+                </div>
+                <div id="all-videos-container" class="video-container">
+                    <!-- All videos will be generated by JavaScript -->
+                </div>
+            </div>
+            
             <!-- Category sections will be generated by JavaScript -->
         </div>
     </div>
