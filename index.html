@@ -30,48 +30,33 @@
             },
             {
                 id: '0ydZh5OgD50',
-                title: 'NousNav Video Tutorial 4 - Affixing the Reference Array Mount',
+                title: 'NousNav Video Tutorial 4a - Affixing the Reference Array Mount',
                 category: 'setup'
             },
             {
                 id: 'YVUPEYzc6Ns',
-                title: 'NousNav Video Tutorial 5 - Attaching the Reference Array to the Mount',
+                title: 'NousNav Video Tutorial 4b - Attaching the Reference Array to the Mount',
                 category: 'setup'
             },
             {
+                id: 'y4zAbfPj1iA',
+                title: 'NousNav Software Tutorial 5 - Pointer Calibration: Pivot',
+                category: 'calibration'
+            },
+            {
                 id: 'uCKh42dy4ko',
-                title: 'NousNav Video Tutorial 6 - Pointer Calibration: Pivot',
+                title: 'NousNav Video Tutorial 5 - Pointer Calibration: Pivot',
+                category: 'calibration'
+            },
+            {
+                id: 'aktj2e7b5mU',
+                title: 'NousNav Software Tutorial 6 - Pointer Calibration: Spin',
                 category: 'calibration'
             },
             {
                 id: 'IULhu-MymIA',
-                title: 'NousNav Video Tutorial 7 - Pointer Calibration: Spin',
+                title: 'NousNav Video Tutorial 6 - Pointer Calibration: Spin',
                 category: 'calibration'
-            },
-            {
-                id: '5iK24jAa0Eg',
-                title: 'NousNav Video Tutorial 8 - Initializing Registration with Anatomical Landmarks',
-                category: 'registration'
-            },
-            {
-                id: '32xyIqOp6e0',
-                title: 'NousNav Video Tutorial 9 - Finalizing Registration with Dense Trace Collection',
-                category: 'registration'
-            },
-            {
-                id: 'P5i6Ta7QBi8',
-                title: 'NousNav Video Tutorial 10 - Verifying the Registration Accuracy',
-                category: 'registration'
-            },
-            {
-                id: '4ovvoLBK_nE',
-                title: 'NousNav Video Tutorial 11 - Identifying the Pre-Planned Trajectory',
-                category: 'procedure'
-            },
-            {
-                id: '2VqFgdLoKhI',
-                title: 'NousNav Video Tutorial 12 - Defining Tumor Boundaries',
-                category: 'procedure'
             },
             {
                 id: 'g4U_IARbBtc',
@@ -89,34 +74,75 @@
                 category: 'planning'
             },
             {
-                id: 'HYPUuCCUj98',
-                title: 'NousNav Software Tutorial 4  - Anatomical Landmarks Definition',
-                category: 'planning'
-            },
-            {
                 id: 'QrdGlmQTWRg',
-                title: 'NousNav Software Tutorial 5  - Trajectory Planning',
+                title: 'NousNav Software Tutorial 4  - Trajectory Planning',
                 category: 'planning'
             },
             {
-                id: 'kNwygAhnYp8',
-                title: 'NousNav Software Tutorial 6  - Data Saving',
-                category: 'planning'
+                id: '5iK24jAa0Eg',
+                title: 'NousNav Video Tutorial 7 - Anatomical Landmarks Definition',
+                category: 'registration'
             },
+            {
+                id: 'HYPUuCCUj98',
+                title: 'NousNav Software Tutorial 7  - Anatomical Landmarks Definition',
+                category: 'registration'
+            },
+            {
+                id: '32xyIqOp6e0',
+                title: 'NousNav Video Tutorial 8 - Dense Trace Collection',
+                category: 'registration'
+            },
+            {
+                id: 'ajKvYv5bSl8',
+                title: 'NousNav Software Tutorial 8 - Dense Trace Collection',
+                category: 'registration'
+            },
+            {
+                id: 'P5i6Ta7QBi8',
+                title: 'NousNav Video Tutorial 9 - Verifying the Registration Accuracy',
+                category: 'registration'
+            },
+            {
+                id: 'swuKo-j0JQo',
+                title: 'NousNav Software Tutorial 9  - Verifying the Registration Accuracy',
+                category: 'registration'
+            },
+            {
+                id: '4ovvoLBK_nE',
+                title: 'NousNav Video Tutorial 10 - Identifying the Pre-Planned Trajectory',
+                category: 'navigation'
+            },
+            {
+                id: '2VqFgdLoKhI',
+                title: 'NousNav Video Tutorial 10 - Defining Tumor Boundaries',
+                category: 'navigation'
+            },
+            // NousNav Software Tutorial 11 has no sound: fix the bug
+            {
+                id: 'TII5f-wC1DQ',
+                title: 'NousNav Software Tutorial 10 - NousNav Neuronavigation',
+                category: 'navigation'
+            },
+            // this is the placeholder for saving data
+           // {
+           //     id: 'kNwygAhnYp8',
+           //     title: 'NousNav Software Tutorial 6  - Data Saving',
+           //     category: 'segmentation'
+           // },
         ];
 
         // Define categories and their display names
         const categories = {
+            'planning': 'Surgical Planning',
             'setup': 'System Setup',
-            'calibration': 'Calibration',
-            'loading': 'DICOM Data Import',
-            'planning': 'Segmentation',
+            'calibration': 'Pointer Calibration',
             'registration': 'Registration',
-            'procedure': 'Navigation',
+            'navigation': 'Navigation',
         };
 
         window.onload = function () {
-            const videoContainer = document.getElementById('video-container');
+            const mainContainer = document.getElementById('main-container');
             const categoryNav = document.getElementById('category-nav');
             
             // Create category navigation
@@ -126,45 +152,91 @@
             }
             categoryNav.innerHTML = categoryNavHTML;
             
-            // Create video items
-            for (const video of videos) {
-                const videoItem = document.createElement('div');
-                videoItem.className = `video-item ${video.category}`;
-                videoItem.innerHTML = `
-                    <div class="video-thumbnail" onclick="playVideo('${video.id}')">
-                        <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.title}">
-                        <div class="play-button">
-                            <svg viewBox="0 0 24 24" fill="white">
-                                <path d="M8 5v14l11-7z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h2>${video.title}</h2>
-                    <span class="category-tag">${categories[video.category]}</span>
-                `;
-                videoContainer.appendChild(videoItem);
+            // Create category sections
+            const categoryVideos = {};
+            
+            // Group videos by category
+            videos.forEach(video => {
+                if (!categoryVideos[video.category]) {
+                    categoryVideos[video.category] = [];
+                }
+                categoryVideos[video.category].push(video);
+            });
+            
+            // Create sections for each category
+            for (const [categoryKey, categoryName] of Object.entries(categories)) {
+                if (categoryVideos[categoryKey] && categoryVideos[categoryKey].length > 0) {
+                    // Create section container
+                    const sectionElement = document.createElement('div');
+                    sectionElement.className = 'category-section';
+                    sectionElement.id = categoryKey;
+                    
+                    // Create section header
+                    const headerElement = document.createElement('div');
+                    headerElement.className = 'category-header';
+                    headerElement.innerHTML = `
+                        <h2 class="category-title">${categoryName}</h2>
+                        <a href="#${categoryKey}" class="view-all" data-category="${categoryKey}">View All</a>
+                    `;
+                    sectionElement.appendChild(headerElement);
+                    
+                    // Create video container for this category
+                    const videoContainer = document.createElement('div');
+                    videoContainer.className = 'video-container';
+                    
+                    // Add videos to this container
+                    categoryVideos[categoryKey].forEach(video => {
+                        const videoItem = document.createElement('div');
+                        videoItem.className = `video-item ${video.category}`;
+                        videoItem.innerHTML = `
+                            <div class="video-thumbnail" onclick="playVideo('${video.id}')">
+                                <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.title}">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24" fill="white">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3>${video.title}</h3>
+                            <span class="category-tag">${categoryName}</span>
+                        `;
+                        videoContainer.appendChild(videoItem);
+                    });
+                    
+                    sectionElement.appendChild(videoContainer);
+                    mainContainer.appendChild(sectionElement);
+                }
             }
             
             // Category filtering functionality
-            const categoryLinks = document.querySelectorAll('#category-nav a');
+            const categoryLinks = document.querySelectorAll('#category-nav a, .view-all');
             categoryLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    // Update active link
-                    categoryLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
+                    // Update active link in navigation
+                    document.querySelectorAll('#category-nav a').forEach(l => l.classList.remove('active'));
+                    const navLink = document.querySelector(`#category-nav a[data-category="${this.getAttribute('data-category')}"]`);
+                    if (navLink) navLink.classList.add('active');
                     
                     const category = this.getAttribute('data-category');
-                    const videoItems = document.querySelectorAll('.video-item');
                     
-                    videoItems.forEach(item => {
-                        if (category === 'all' || item.classList.contains(category)) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
+                    // Show/hide sections based on selection
+                    if (category === 'all') {
+                        document.querySelectorAll('.category-section').forEach(section => {
+                            section.style.display = 'block';
+                        });
+                    } else {
+                        document.querySelectorAll('.category-section').forEach(section => {
+                            if (section.id === category) {
+                                section.style.display = 'block';
+                                // Scroll to this section
+                                section.scrollIntoView({ behavior: 'smooth' });
+                            } else {
+                                section.style.display = 'none';
+                            }
+                        });
+                    }
                 });
             });
 
@@ -172,20 +244,75 @@
             const searchInput = document.getElementById('search-input');
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
-                const videoItems = document.querySelectorAll('.video-item');
                 
-                videoItems.forEach(item => {
-                    const title = item.querySelector('h2').textContent.toLowerCase();
-                    if (title.includes(searchTerm)) {
+                if (searchTerm === '') {
+                    // If search is cleared, restore all categories
+                    document.querySelectorAll('.category-section').forEach(section => {
+                        section.style.display = 'block';
+                    });
+                    document.querySelectorAll('.video-item').forEach(item => {
                         item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
+                    });
+                    return;
+                }
+                
+                // Hide all sections first
+                document.querySelectorAll('.category-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Create search results section if it doesn't exist
+                let searchResultsSection = document.getElementById('search-results');
+                if (!searchResultsSection) {
+                    searchResultsSection = document.createElement('div');
+                    searchResultsSection.className = 'category-section';
+                    searchResultsSection.id = 'search-results';
+                    
+                    const headerElement = document.createElement('div');
+                    headerElement.className = 'category-header';
+                    headerElement.innerHTML = `<h2 class="category-title">Search Results</h2>`;
+                    searchResultsSection.appendChild(headerElement);
+                    
+                    const resultsContainer = document.createElement('div');
+                    resultsContainer.className = 'video-container';
+                    resultsContainer.id = 'search-results-container';
+                    searchResultsSection.appendChild(resultsContainer);
+                    
+                    mainContainer.insertBefore(searchResultsSection, mainContainer.firstChild);
+                } else {
+                    searchResultsSection.style.display = 'block';
+                    document.getElementById('search-results-container').innerHTML = '';
+                }
+                
+                // Find matching videos
+                let matches = 0;
+                videos.forEach(video => {
+                    if (video.title.toLowerCase().includes(searchTerm)) {
+                        matches++;
+                        const videoItem = document.createElement('div');
+                        videoItem.className = `video-item ${video.category}`;
+                        videoItem.innerHTML = `
+                            <div class="video-thumbnail" onclick="playVideo('${video.id}')">
+                                <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.title}">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24" fill="white">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3>${video.title}</h3>
+                            <span class="category-tag">${categories[video.category]}</span>
+                        `;
+                        document.getElementById('search-results-container').appendChild(videoItem);
                     }
                 });
                 
+                // Update search results title with count
+                document.querySelector('#search-results .category-title').textContent = 
+                    `Search Results (${matches} ${matches === 1 ? 'video' : 'videos'} found)`;
+                
                 // Reset category filter when searching
-                categoryLinks.forEach(l => l.classList.remove('active'));
-                document.querySelector('[data-category="all"]').classList.add('active');
+                document.querySelectorAll('#category-nav a').forEach(l => l.classList.remove('active'));
             });
         }
 
@@ -255,6 +382,14 @@
 
         h2 {
             font-family: 'Josefin Sans', sans-serif;
+            font-size: 1.6rem;
+            margin: 10px 0 5px;
+            line-height: 1.4;
+            color: var(--primary-color);
+        }
+
+        h3 {
+            font-family: 'Josefin Sans', sans-serif;
             font-size: 1rem;
             margin: 10px 0 5px;
             line-height: 1.4;
@@ -323,15 +458,50 @@
             box-shadow: var(--box-shadow);
         }
 
+        /* Category Sections */
+        .category-section {
+            margin-bottom: 50px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .category-title {
+            margin: 0;
+        }
+
+        .view-all {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .view-all:hover {
+            background-color: rgba(0, 102, 204, 0.1);
+        }
+
         /* Video Grid */
-        #video-container {
+        .video-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
 
         .video-item {
-            background-color: white;
+            background-color: var(--light-gray);
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--box-shadow);
@@ -388,7 +558,7 @@
             transform: translate(-50%, -50%) scale(1.1);
         }
 
-        .video-item h2 {
+        .video-item h3 {
             padding: 15px 15px 5px;
         }
 
@@ -396,7 +566,7 @@
             display: inline-block;
             margin: 0 15px 15px;
             padding: 3px 10px;
-            background-color: var(--light-gray);
+            background-color: white;
             border-radius: 15px;
             font-size: 0.8rem;
             color: var(--primary-color);
@@ -469,14 +639,22 @@
             .intro p {
                 font-size: 1rem;
             }
+            .category-title {
+                font-size: 1.3rem;
+            }
         }
 
         @media (max-width: 480px) {
-            #video-container {
+            .video-container {
                 grid-template-columns: 1fr;
             }
             .intro h1 {
                 font-size: 1.5rem;
+            }
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
         }
     </style>
@@ -490,7 +668,7 @@
 
     <div class="container">
         <div class="intro">
-            <p>Welcome to the NousNav Video Tutorial Library. These videos will guide you through setting up and using the NousNav system for neurosurgical navigation.</p>
+            <p>Welcome to NousNav Video Tutorials Compendium. These videos will guide you through setting up and using the NousNav system for neurosurgical navigation.</p>
         </div>
 
         <div class="search-container">
@@ -503,8 +681,8 @@
             </ul>
         </div>
 
-        <div id="video-container">
-            <!-- Video items will be generated by JavaScript -->
+        <div id="main-container">
+            <!-- Category sections will be generated by JavaScript -->
         </div>
     </div>
 
@@ -516,4 +694,3 @@
     </div>
 </body>
 </html>
-
