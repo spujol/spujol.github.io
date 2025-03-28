@@ -370,9 +370,14 @@
                         matches++;
                         const videoItem = document.createElement('div');
                         videoItem.className = `video-item ${video.category}`;
+
+                        const thumbnailSrc = video.thumbnail 
+                            ? video.thumbnail 
+                            : (video.id ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg` : 'NousNavLogo.png');                        
+                        
                         videoItem.innerHTML = `
                             <div class="video-thumbnail" onclick="playVideo('${video.id}')">
-                                <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.title}">
+                                <img src="${thumbnailSrc}" alt="${video.title}">
                                 <div class="play-button">
                                     <svg viewBox="0 0 24 24" fill="white">
                                         <path d="M8 5v14l11-7z"/>
