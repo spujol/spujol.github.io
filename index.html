@@ -15,12 +15,12 @@
         const videos = [
             
         // Category: SetUp
-            {
-                id: null,
-                title: 'NousNav Video Tutorial 0 - Checking NousNav Components',
-                category: 'setup',
-                thumbnail: 'NousNavLogo.png'
-            },
+           // {
+           //     id: null,
+           //     title: 'NousNav Video Tutorial 0 - Checking NousNav Components',
+           //     category: 'setup',
+           //     thumbnail: 'NousNavLogo.png'
+           // },
             {
                 id: '2-Hhx8DqVpA',
                 title: 'NousNav Video Tutorial 1 - Affixing the Camera to the Tripod',
@@ -38,14 +38,15 @@
             },
             {
                 id: '0ydZh5OgD50',
-                title: 'NousNav Video Tutorial 4 - Affixing the Reference Array Mount',
+                title: 'NousNav Video Tutorial 4 - Affixing the Non-Sterile Reference Array Mount',
                 category: 'setup'
             },
             {
                 id: 'YVUPEYzc6Ns',
-                title: 'NousNav Video Tutorial 5 - Attaching the Reference Array to the Mount',
+                title: 'NousNav Video Tutorial 5 - Attaching the Non-Sterile Reference Array to the Mount',
                 category: 'setup'
             },
+           
 
          // Category: Planning
              {
@@ -75,64 +76,85 @@
             },
 
         // Category: Calibration
+
+            {
+                id: '2IqgHJIjjEA',
+                title: 'NousNav Software Tutorial 6 - Aligning the Camera',
+                category: 'setup',
+            },
+
+            {
+                id: 'MqGQxv_rbbQ',
+                title: 'NousNav Video Tutorial 6 - Aligning the Camera',
+                category: 'setup',
+            },
+
             {
                 id: 'y4zAbfPj1iA',
-                title: 'NousNav Software Tutorial 6 - Pointer Calibration: Pivot',
+                title: 'NousNav Software Tutorial 7 - Pointer Calibration: Pivot',
                 category: 'calibration'
             },
             {
                 id: 'uCKh42dy4ko',
-                title: 'NousNav Video Tutorial 6 - Pointer Calibration: Pivot',
+                title: 'NousNav Video Tutorial 7 - Pointer Calibration: Pivot',
                 category: 'calibration'
             },
             {
                 id: 'aktj2e7b5mU',
-                title: 'NousNav Software Tutorial 7 - Pointer Calibration: Spin',
+                title: 'NousNav Software Tutorial 8 - Pointer Calibration: Spin',
                 category: 'calibration'
             },
             {
                 id: 'IULhu-MymIA',
-                title: 'NousNav Video Tutorial 7 - Pointer Calibration: Spin',
+                title: 'NousNav Video Tutorial 8 - Pointer Calibration: Spin',
                 category: 'calibration'
             },
+
+        // Category: Regsitration
             {
-                id: '5iK24jAa0Eg',
-                title: 'NousNav Video Tutorial 8 - Anatomical Landmarks Definition',
+                id: 'HYPUuCCUj98',
+                title: 'NousNav Software Tutorial 9 - Define Landmarks',
                 category: 'registration'
             },
             {
+                id: '5iK24jAa0Eg',
+                title: 'NousNav Video Tutorial 9 - Anatomical Landmarks Definition',
+                category: 'registration'
+            },
+          
+            {
                 id: 'ajKvYv5bSl8',
-                title: 'NousNav Software Tutorial 8 - Dense Trace Collection',
+                title: 'NousNav Software Tutorial 10 - Acquire Trace',
                 category: 'registration'
             },
             {
                 id: '32xyIqOp6e0',
-                title: 'NousNav Video Tutorial 9 - Dense Trace Collection',
+                title: 'NousNav Video Tutorial 10 - Dense Trace Collection',
                 category: 'registration'
             },
             {
                 id: 'swuKo-j0JQo',
-                title: 'NousNav Software Tutorial 9  - Verifying the Registration Accuracy',
+                title: 'NousNav Software Tutorial 11  - Check Registration',
                 category: 'registration'
             },
             {
                 id: 'P5i6Ta7QBi8',
-                title: 'NousNav Video Tutorial 10 - Verifying the Registration Accuracy',
+                title: 'NousNav Video Tutorial 11 - Verifying the Registration Accuracy',
                 category: 'registration'
             },
             {
                 id: 'TII5f-wC1DQ',
-                title: 'NousNav Software Tutorial 10 - NousNav Neuronavigation',
+                title: 'NousNav Software Tutorial 12 - NousNav Neuronavigation',
                 category: 'navigation'
             },
             {
                 id: '4ovvoLBK_nE',
-                title: 'NousNav Video Tutorial 11 - Identifying the Pre-Planned Trajectory',
+                title: 'NousNav Video Tutorial 12 - Identifying the Pre-Planned Trajectory',
                 category: 'navigation'
             },
             {
                 id: '2VqFgdLoKhI',
-                title: 'NousNav Video Tutorial 12 - Defining Tumor Boundaries',
+                title: 'NousNav Video Tutorial 13 - Defining Tumor Boundaries',
                 category: 'navigation'
             },
             
@@ -149,8 +171,8 @@
         // Define categories and their display names
         const categories = {
             'setup': 'System Setup',
-            'planning': 'Surgical Planning',
-            'calibration': 'Pointer Calibration',
+            'planning': 'Planning',
+            'calibration': 'Calibration',
             'registration': 'Registration',
             'navigation': 'Navigation',
         };
@@ -169,11 +191,18 @@
             
             // Create all videos grid
             videos.forEach(video => {
+
                 const videoItem = document.createElement('div');
                 videoItem.className = `video-item ${video.category}`;
+                
+                const thumbnailSrc = (video.id && video.id !== 'null') 
+                    ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg` 
+                    : 'NousNavLogo.png';
+
+
                 videoItem.innerHTML = `
                     <div class="video-thumbnail" onclick="playVideo('${video.id}')">
-                        <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${video.title}">
+                        <img src="${thumbnailSrc}" alt="${video.title}">
                         <div class="play-button">
                             <svg viewBox="0 0 24 24" fill="white">
                                 <path d="M8 5v14l11-7z"/>
@@ -371,9 +400,9 @@
                         const videoItem = document.createElement('div');
                         videoItem.className = `video-item ${video.category}`;
 
-                        const thumbnailSrc = video.thumbnail 
-                            ? video.thumbnail 
-                            : (video.id ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg` : 'NousNavLogo.png');                        
+                        const thumbnailSrc = (video.id && video.id !== 'null')
+                                ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`
+                                : 'NousNavLogo.png';                        
                         
                         videoItem.innerHTML = `
                             <div class="video-thumbnail" onclick="playVideo('${video.id}')">
