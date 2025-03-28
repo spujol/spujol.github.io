@@ -398,6 +398,9 @@
         }
 
         function playVideo(videoId) {
+            
+            if (!videoId) return; // Don't do anything for placeholder videos
+            
             const modal = document.getElementById('modal');
             const iframe = document.querySelector('#modal iframe');
             
